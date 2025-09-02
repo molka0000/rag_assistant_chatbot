@@ -97,13 +97,15 @@ class DirectoryLoader:
 
 if __name__ == "__main__":
     root_folder = Path(__file__).resolve().parent.parent.parent
-    docs_path = root_folder / "docs"
+   # docs_path = root_folder / "docs"
+    docs_path = root_folder / "docs" / "reglementation"
     loader = DirectoryLoader(
-        path=docs_path,
-        glob="*.md",
+       path=docs_path,
+        glob="*.pdf",
         recursive=True,
         use_multithreading=True,
         show_progress=True,
+        
     )
     documents = loader.load()
     print(f"Loaded {len(documents)} documents.")

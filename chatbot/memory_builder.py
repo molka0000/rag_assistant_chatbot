@@ -25,13 +25,13 @@ def load_documents(docs_path: Path) -> list[Document]:
     """
     loader = DirectoryLoader(
         path=docs_path,
-        glob="**/*.md",
+        glob="**/*.pdf",
         show_progress=True,
     )
     return loader.load()
 
 
-def split_chunks(sources: list, chunk_size: int = 512, chunk_overlap: int = 25) -> list:
+def split_chunks(sources: list, chunk_size: int = 1000, chunk_overlap: int = 100) -> list:
     """
     Splits a list of sources into smaller chunks.
 
@@ -45,7 +45,7 @@ def split_chunks(sources: list, chunk_size: int = 512, chunk_overlap: int = 25) 
     """
     chunks = []
     splitter = create_recursive_text_splitter(
-        format=Format.MARKDOWN.value, chunk_size=chunk_size, chunk_overlap=chunk_overlap
+        format=Format.PDF.value, chunk_size=chunk_size, chunk_overlap=chunk_overlap
     )
     for chunk in splitter.split_documents(sources):
         chunks.append(chunk)
@@ -90,7 +90,7 @@ def get_args() -> argparse.Namespace:
 
 def main(parameters):
     root_folder = Path(__file__).resolve().parent.parent
-    doc_path = root_folder / "docs"
+    doc_path = root_folder / "docs" / "reglementation"
     vector_store_path = root_folder / "vector_store" / "docs_index"
 
     build_memory_index(

@@ -43,8 +43,8 @@ class TextSplitter(ABC):
 
     def __init__(
         self,
-        chunk_size: int = 1000,
-        chunk_overlap: int = 50,
+        chunk_size: int = 2000,
+        chunk_overlap: int = 200,
         length_function: Callable[[str], int] = len,
         keep_separator: bool = False,
         add_start_index: bool = False,

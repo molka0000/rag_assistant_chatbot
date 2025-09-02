@@ -3,6 +3,7 @@ from enum import Enum
 
 class Format(Enum):
     MARKDOWN = "markdown"
+    PDF = "pdf"
 
 
 SUPPORTED_FORMATS = {
@@ -23,6 +24,20 @@ SUPPORTED_FORMATS = {
         "\n\n",
         "\n",
         " ",
+        "",
+    ],
+    Format.PDF.value: [
+        # Split on page breaks and major sections
+        "\n\n\n",  # Multiple line breaks (often page breaks)
+        "\n\n",    # Paragraph breaks
+        "\nArticle ",  # Legal articles (banking regulations)
+        "\nChapitre ",  # Chapters
+        "\nSection ",   # Sections
+        "\n• ",     # Bullet points
+        "\n- ",     # Dash points
+        "\n",       # Line breaks
+        ". ",       # Sentence breaks
+        " ",        # Word breaks
         "",
     ]
 }
