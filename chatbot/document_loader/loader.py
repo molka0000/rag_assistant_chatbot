@@ -21,6 +21,7 @@ class DirectoryLoader:
         show_progress: bool = False,
         use_multithreading: bool = False,
         max_concurrency: int = 4,
+        language: str = "fr", 
         **partition_kwargs: Any,
     ):
         """Initialize with a path to directory and how to glob over it.
@@ -41,6 +42,7 @@ class DirectoryLoader:
         self.show_progress = show_progress
         self.use_multithreading = use_multithreading
         self.max_concurrency = max_concurrency
+        self.language = language
         self.partition_kwargs = partition_kwargs
 
     def load(self) -> list[Document]:
@@ -85,7 +87,7 @@ class DirectoryLoader:
                 # Loads document from the specified path.
                 # The unstructured `partition` function and will automatically detect the file type with libmagic to
                 # determine the file's type and route it to the appropriate partitioning function.
-                elements = partition(filename=str(doc_path), **self.partition_kwargs)
+                elements = partition(filename=str(doc_path), language=self.language, **self.partition_kwargs)
                 # Note: The `partition` function returns a list of elements that we can filter by type based on the
                 # specific format.
                 text = "\n\n".join([str(el) for el in elements])

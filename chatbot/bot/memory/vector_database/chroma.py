@@ -47,7 +47,7 @@ class Chroma:
         self,
         query_texts: list[str] | None = None,
         query_embeddings: list[list[float]] | None = None,
-        n_results: int = 4,
+        n_results: int = 2,
         where: dict[str, str] | None = None,
         where_document: dict[str, str] | None = None,
         **kwargs: Any,
@@ -203,8 +203,8 @@ class Chroma:
     def similarity_search_with_threshold(
         self,
         query: str,
-        k: int = 4,
-        threshold: float | None = 0.2,
+        k: int = 2,
+        threshold: float | None = 0.4,
     ) -> tuple[list[Document], list[dict[str, Any]]]:
         """
         Performs similarity search on the given query.
@@ -244,7 +244,11 @@ class Chroma:
                 {
                     "score": round(score, 3),
                     "document": doc.metadata.get("source"),
-                    "content_preview": f"{doc.page_content[0:256]}...",
+                    "content_preview": f"{doc.page_content[0:800]}...",
+                    # ✅ Ajouter plus de métadonnées :
+                    "page": doc.metadata.get("page", "N/A"),
+                    "full_content_length": len(doc.page_content),  # Pour voir la taille du chunk
+                    "metadata": doc.metadata,  # Pour debug
                 }
             )
 

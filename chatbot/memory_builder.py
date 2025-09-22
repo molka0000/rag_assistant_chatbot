@@ -1,7 +1,6 @@
 import argparse
 import sys
 from pathlib import Path
-
 from bot.memory.embedder import Embedder
 from bot.memory.vector_database.chroma import Chroma
 from document_loader.format import Format
@@ -15,7 +14,7 @@ logger = get_logger(__name__)
 
 def load_documents(docs_path: Path) -> list[Document]:
     """
-    Loads Markdown documents from the specified path.
+    Loads json documents from the specified path.
 
     Args:
         docs_path (Path): The path to the documents.
@@ -27,11 +26,12 @@ def load_documents(docs_path: Path) -> list[Document]:
         path=docs_path,
         glob="**/*.pdf",
         show_progress=True,
+        language="fr",
     )
     return loader.load()
 
 
-def split_chunks(sources: list, chunk_size: int = 1000, chunk_overlap: int = 100) -> list:
+def split_chunks(sources: list, chunk_size: int = 512, chunk_overlap: int = 100) -> list:
     """
     Splits a list of sources into smaller chunks.
 
@@ -80,17 +80,18 @@ def get_args() -> argparse.Namespace:
     parser.add_argument(
         "--chunk-overlap",
         type=int,
-        help="The amount of overlap between consecutive chunks. Defaults to 25.",
+        help="The amount of overlap between consecutive chunks. Defaults to 100.",
         required=False,
-        default=25,
+        default=100,
     )
 
     return parser.parse_args()
 
 
 def main(parameters):
+
     root_folder = Path(__file__).resolve().parent.parent
-    doc_path = root_folder / "docs" / "reglementation"
+    doc_path =root_folder / "docs" / "reglementation"
     vector_store_path = root_folder / "vector_store" / "docs_index"
 
     build_memory_index(

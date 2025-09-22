@@ -1,18 +1,20 @@
 from enum import Enum
 
 from bot.model.settings.deep_seek import DeepSeekR1SevenSettings
-from bot.model.settings.llama import Llama31Settings, Llama31ToolSettings, Llama32OneSettings, Llama32ThreeSettings
-from bot.model.settings.openchat import OpenChat35Settings, OpenChat36Settings
+
 from bot.model.settings.phi import Phi35Settings
 from bot.model.settings.qwen import Qwen25ThreeMathReasoningSettings, Qwen25ThreeSettings
 from bot.model.settings.stablelm_zephyr import StableLMZephyrSettings
 from bot.model.settings.starling import StarlingSettings
+from bot.model.settings.groq import GroqModelSettings
+from bot.model.settings.llama8 import llama8ModelSettings
+
 
 
 class Model(Enum):
+    GROQ_MODEL_llama8 ="llama-3.1-8b-instant"
+    GROQ_MODEL = "llama-3.3-70b-versatile"
     STABLELM_ZEPHYR = "stablelm-zephyr"
-    OPENCHAT_3_5 = "openchat-3.5"
-    OPENCHAT_3_6 = "openchat-3.6"
     STARLING = "starling"
     PHI_3_5 = "phi-3.5"
     LLAMA_3_1 = "llama-3.1"
@@ -25,15 +27,11 @@ class Model(Enum):
 
 
 SUPPORTED_MODELS = {
+    Model.GROQ_MODEL.value: GroqModelSettings,
     Model.STABLELM_ZEPHYR.value: StableLMZephyrSettings,
-    Model.OPENCHAT_3_5.value: OpenChat35Settings,
-    Model.OPENCHAT_3_6.value: OpenChat36Settings,
+
     Model.STARLING.value: StarlingSettings,
     Model.PHI_3_5.value: Phi35Settings,
-    Model.LLAMA_3_1.value: Llama31Settings,
-    Model.LLAMA_3_1_tool.value: Llama31ToolSettings,
-    Model.LLAMA_3_2_one.value: Llama32OneSettings,
-    Model.LLAMA_3_2_three.value: Llama32ThreeSettings,
     Model.QWEN_2_5_THREE.value: Qwen25ThreeSettings,
     Model.QWEN_2_5_THREE_MATH_REASONING.value: Qwen25ThreeMathReasoningSettings,
     Model.DEEP_SEEK_R1_SEVEN.value: DeepSeekR1SevenSettings,

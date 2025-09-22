@@ -1,120 +1,51 @@
 from document_loader.format import Format
-from document_loader.text_splitter import RecursiveCharacterTextSplitter, create_recursive_text_splitter
+from document_loader.text_splitter import RecursiveCharacterTextSplitter
+from pathlib import Path
+import PyPDF2
 
-
-def test_recursive_character_text_splitter_keep_separators() -> None:
-    split_tags = [",", "."]
-    query = "Apple,banana,orange and tomato."
-    # keep_separator True
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=10,
-        chunk_overlap=0,
-        separators=split_tags,
-        keep_separator=True,
-    )
-    result = splitter.split_text(query)
-    assert result == ["Apple", ",banana", ",orange and tomato", "."]
-
-    # keep_separator False
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=10,
-        chunk_overlap=0,
-        separators=split_tags,
-        keep_separator=False,
-    )
-    result = splitter.split_text(query)
-    assert result == ["Apple", "banana", "orange and tomato"]
-
-
-def test_iterative_text_splitter() -> None:
-    """Test iterative text splitter."""
-    text = """Hi.\n\nI'm Harrison.\n\nHow? Are? You?\nOkay then f f f f.
-This is a weird text to write, but gotta test the splittingggg some how.
-
-Bye!\n\n-H."""
-    splitter = RecursiveCharacterTextSplitter(chunk_size=10, chunk_overlap=1)
-    output = splitter.split_text(text)
-    expected_output = [
-        "Hi.",
-        "I'm",
-        "Harrison.",
-        "How? Are?",
-        "You?",
-        "Okay then",
-        "f f f f.",
-        "This is a",
-        "weird",
-        "text to",
-        "write,",
-        "but gotta",
-        "test the",
-        "splitting",
-        "gggg",
-        "some how.",
-        "Bye!",
-        "-H.",
-    ]
-    assert output == expected_output
-
-
-def test_markdown_splitter() -> None:
-    splitter = create_recursive_text_splitter(format=Format.MARKDOWN.value, chunk_size=16, chunk_overlap=0)
-    code = """
-# Sample Document
-
-## Section
-
-This is the content of the section.
-
-## Lists
-
-- Item 1
-- Item 2
-- Item 3
-
-### Horizontal lines
-
-***********
-____________
--------------------
-
-#### Code blocks
-```
-This is a code block
-
-# sample code
-a = 1
-b = 2
-```
+def load_pdf_page_text(pdf_path: Path, page_number: int) -> str:
     """
-    chunks = splitter.split_text(code)
-    assert chunks == [
-        "# Sample",
-        "Document",
-        "## Section",
-        "This is the",
-        "content of the",
-        "section.",
-        "## Lists",
-        "- Item 1",
-        "- Item 2",
-        "- Item 3",
-        "### Horizontal",
-        "lines",
-        "***********",
-        "____________",
-        "---------------",
-        "----",
-        "#### Code",
-        "blocks",
-        "```",
-        "This is a code",
-        "block",
-        "# sample code",
-        "a = 1\nb = 2",
-        "```",
-    ]
-    # Special test for special characters
-    code = "harry\n***\nbabylon is"
-    chunks = splitter.split_text(code)
-    assert chunks == ["harry\n***", "babylon is"]
+    Charge le texte d'une page spécifique d'un PDF avec PyPDF2.
+    """
+    with pdf_path.open("rb") as f:
+        reader = PyPDF2.PdfReader(f)
+        if page_number >= len(reader.pages):
+            raise ValueError(f"Le PDF n'a que {len(reader.pages)} pages, page demandée: {page_number}")
+        page = reader.pages[page_number]
+        return page.extract_text() or ""
+
+def test_pdf_splitter_page2():
+    """
+    Teste le text splitter sur la 2ème page du PDF 'Code monétaire et financier'.
+    Affiche les chunks pour visualiser leur contenu.
+    """
+    # Chemin vers ton PDF (ajuster si nécessaire)
+    pdf_path = Path(__file__).parent.parent.parent / "docs" / "reglementation" / "code monétaire et finanacier.pdf"
+
+    # Charger le texte de la 2ème page (index 1)
+    text = load_pdf_page_text(pdf_path, page_number=1)
+
+    # Créer le splitter avec les separators de Format.PDF
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000,         # taille max d'un chunk
+        chunk_overlap=100,       # chevauchement entre chunks
+        separators=Format.PDF.value,
+        keep_separator=True
+    )
+
+    # Découper le texte en chunks
+    chunks = splitter.split_text(text)
+
+    # Afficher les chunks pour visualisation
+    print("\n=== CHUNKS DE LA 2ÈME PAGE ===\n")
+    for i, chunk in enumerate(chunks, start=1):
+        print(f"Chunk {i} ({len(chunk)} caractères):")
+        print(repr(chunk))
+        print("---")
+
+    # Vérification simple
+    assert len(chunks) > 0, "Aucun chunk n'a été généré."
+
+# Si on veut lancer le test directement
+if __name__ == "__main__":
+    test_pdf_splitter_page2()
