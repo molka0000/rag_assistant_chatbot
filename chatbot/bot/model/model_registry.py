@@ -1,40 +1,33 @@
 from enum import Enum
-
-from bot.model.settings.deep_seek import DeepSeekR1SevenSettings
-
-from bot.model.settings.phi import Phi35Settings
-from bot.model.settings.qwen import Qwen25ThreeMathReasoningSettings, Qwen25ThreeSettings
-from bot.model.settings.stablelm_zephyr import StableLMZephyrSettings
-from bot.model.settings.starling import StarlingSettings
 from bot.model.settings.groq import GroqModelSettings
-from bot.model.settings.llama8 import llama8ModelSettings
-
+from bot.model.settings.llama8 import llama8ModelSettings, llama8ModelSettingsHighTemp, llama8ModelSettingsLowTemp
+from bot.model.settings.open_ai_20b import OpenAI20BModelSettings, OpenAI20BModelSettingsHighTemp, OpenAI20BModelSettingsLowTemp
+from bot.model.settings.groq import GroqModelSettingsHighTemp, GroqModelSettingsLowTemp
+from bot.model.settings.open_ai_120b import OpenAI120BModelSettings, OpenAI120BModelSettingsHighTemp, OpenAI120BModelSettingsLowTemp
 
 
 class Model(Enum):
     GROQ_MODEL_llama8 ="llama-3.1-8b-instant"
     GROQ_MODEL = "llama-3.3-70b-versatile"
-    STABLELM_ZEPHYR = "stablelm-zephyr"
-    STARLING = "starling"
-    PHI_3_5 = "phi-3.5"
-    LLAMA_3_1 = "llama-3.1"
-    LLAMA_3_1_tool = "llama-3.1-tool"
-    LLAMA_3_2_one = "llama-3.2:1b"
-    LLAMA_3_2_three = "llama-3.2"
-    QWEN_2_5_THREE = "qwen-2.5:3b"
-    QWEN_2_5_THREE_MATH_REASONING = "qwen-2.5:3b-math-reasoning"
-    DEEP_SEEK_R1_SEVEN = "deep-seek-r1:7b"
+    OPENAI_20B = "openai/gpt-oss-20b"
+    OPENAI_120B = "openai/gpt-oss-120b"
+   
 
 
 SUPPORTED_MODELS = {
     Model.GROQ_MODEL.value: GroqModelSettings,
-    Model.STABLELM_ZEPHYR.value: StableLMZephyrSettings,
-
-    Model.STARLING.value: StarlingSettings,
-    Model.PHI_3_5.value: Phi35Settings,
-    Model.QWEN_2_5_THREE.value: Qwen25ThreeSettings,
-    Model.QWEN_2_5_THREE_MATH_REASONING.value: Qwen25ThreeMathReasoningSettings,
-    Model.DEEP_SEEK_R1_SEVEN.value: DeepSeekR1SevenSettings,
+   # Model.GROQ_MODEL.value : GroqModelSettingsHighTemp,
+   # Model.GROQ_MODEL.value : GroqModelSettingsLowTemp,
+    Model.OPENAI_20B.value: OpenAI20BModelSettings,
+   # Model.OPENAI_20B.value: OpenAI20BModelSettingsHighTemp,
+   # Model.OPENAI_20B.value: OpenAI20BModelSettingsLowTemp,
+    Model.OPENAI_120B.value: OpenAI120BModelSettings,
+   # Model.OPENAI_120B.value: OpenAI120BModelSettingsHighTemp,
+  #  Model.OPENAI_120B.value: OpenAI120BModelSettingsLowTemp,
+    Model.GROQ_MODEL_llama8.value: llama8ModelSettings,
+   # Model.GROQ_MODEL_llama8.value: llama8ModelSettingsHighTemp,
+   # Model.GROQ_MODEL_llama8.value: llama8ModelSettingsLowTemp,
+   
 }
 
 

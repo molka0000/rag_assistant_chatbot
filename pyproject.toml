@@ -43,6 +43,8 @@ nvidia-nvjitlink-cu12 = { version = "12.4.127", optional = true, platform = "!=d
 nvidia-nvtx-cu12 = { version = "12.1.105", optional = true, platform = "!=darwin" }
 groq = "^0.31.1"
 torchvision = "0.16.2"
+rouge-score = "^0.1.2"
+bert-score = "^0.3.13"
 
 [tool.poetry.extras]
 cuda-acceleration = [

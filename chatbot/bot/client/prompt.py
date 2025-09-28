@@ -45,7 +45,7 @@ En utilisant UNIQUEMENT les informations contextuelles ci-dessus et non tes conn
 
 Règles STRICTES :
 1. Réponds UNIQUEMENT en français
-2. RÉPONSE MAXIMALE : 5-6 phrases courtes uniquement
+2. RÉPONSE MAXIMALE : 4-5 phrases courtes uniquement
 3. Si l'information concerne des taux ou chiffres, précise la date des données
 4. Si tu ne trouves pas l'information dans le contexte, dis "Je ne trouve pas cette information dans les données fournies"
 5. Format : Réponse directe + 1 source + l'article concerné
@@ -72,7 +72,7 @@ Si le contexte n'est pas utile, retourne la réponse originale.
 
 Règles STRICTES :
 1. Réponds UNIQUEMENT en français
-2. RÉPONSE MAXIMALE : 5-6 phrases courtes uniquement
+2. RÉPONSE MAXIMALE : 4-5 phrases courtes uniquement
 3. Si l'information concerne des taux ou chiffres, précise la date des données
 4. Si tu ne trouves pas l'information dans le contexte, dis "Je ne trouve pas cette information dans les données fournies"
 5. Format : Réponse directe + 1 source + l'article concerné
